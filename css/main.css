@@ -1,0 +1,12 @@
+.container{
+    font-family: poppin,Tahoma,Arial,微软雅黑,sans-serif;
+    width: 1300px;
+}
+.container-fluid{
+    padding: 0;
+    background: url("../img/bg_detail.jpg") 50% 0 repeat-x;
+}
+a:hover{
+    text-decoration: none;
+    color: #31c27c;
+}

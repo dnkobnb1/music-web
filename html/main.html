@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:v-on="http://www.w3.org/1999/xhtml" xmlns:v-bind="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>LL音乐</title>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="../css/main.css">
+    <link rel="stylesheet" type="text/css" href="../css/head_footer.css">
+    <link rel="stylesheet" type="text/css" href="../css/index.css">
+    <script type="text/javascript" src="../js/jquery.min.js"></script>
+    <script type="text/javascript" src="../js/bootstrap.min.js"></script>
+    <!--
+    使用Vue渲染
+    <script type="text/javascript" src="/js/user.js"></script>
+    <script type="text/javascript" src="/js/load.js"></script>
+    -->
+    <script type="text/javascript" src="../js/vue.js"></script>
+    <script type="text/javascript" src="../js/axios.min.js"></script>
+</head>
+<body>
+<div class="container">
+    <div id="head">
+        <img src="../img/logo2.png"/>
+        <ul>
+            <li style="background-color: #31c27c;"><a style="color: #FFFFFF">音乐馆</a></li>
+            <li><a>我的音乐</a></li>
+            <li><a>客户端</a></li>
+            <li><a>音乐号</a></li>
+            <li><a>VIP</a></li>
+        </ul>
+        <div id="search">
+        <input type="text" class="form-control" placeholder="搜索音乐、MV、歌单、用户">
+        <button type="submit" class="btn btn-default">搜索</button>
+        </div>
+        <img src="../img/user/login.jpg" id="user_img"/>
+        <div id="user">
+            <!--已登录的用户-->
+            <div v-if="logined">
+                <span>欢迎您，{{username}}</span>
+                <a href="javascript:void(0)" v-on:click="exit">退出</a>
+            </div>
+            <!--未登陆-->
+            <div v-else>
+                <button type="button" class="btn btn-success" style="width: 111px;" data-toggle="modal" data-target="#login_modal">登录</button>
+                <button type="button" class="btn btn-default" style="width: 85px;" data-toggle="modal" data-target="#register_modal">注册</button>
+            </div>
+        </div>
+    </div>
+    <div id="nav">
+        <ul>
+            <li><a style="color:#31c27c;">首页</a></li>
+            <li><a>歌手</a></li>
+            <li><a>专辑</a></li>
+            <li><a>排行榜</a></li>
+            <li><a>分类歌单</a></li>
+        </ul>
+    </div>
+</div>
+<div id="main">
+    <div class="container-fluid">
+        <div id="recommend">
+            <div class="nav-panel">
+            <h2>歌&nbsp;单&nbsp;推&nbsp;荐</h2>
+            <ul>
+                <li><a style="color:#31c27c">为你推荐</a></li>
+                <li><a>影视</a></li>
+                <li><a>伤感</a></li>
+                <li><a>90年代</a></li>
+                <li><a>情歌</a></li>
+                <li><a>背景音乐</a></li>
+            </ul>
+            </div>
+            <div class="list_panel">
+                <sheet-recommend v-for="sheet in sheetList" v-bind:sheet="sheet"></sheet-recommend>
+                <!--后端获取
+                <div class="music_list">
+                    <img src="../img/sheet/list01.png">
+                    <a> 每日新歌：今日份殿堂级日系爵士 </a>
+                    <span>播放量：6372 </span>
+                </div>
+                <div class="music_list">
+                    <img src="../img/sheet/list02.png">
+                    <a> 每日新歌：今日份殿堂级日系爵士 </a>
+                    <span>播放量：6372 </span>
+                </div>
+                <div class="music_list">
+                    <img src="../img/sheet/list03.png">
+                    <a> 每日新歌：今日份殿堂级日系爵士 </a>
+                    <span>播放量：6372 </span>
+                </div>
+                <div class="music_list">
+                    <img src="../img/sheet/list04.png">
+                    <a> 每日新歌：今日份殿堂级日系爵士 </a>
+                    <span>播放量：6372 </span>
+                </div>
+                <div class="music_list">
+                    <img src="../img/sheet/list05.png">
+                    <a> 每日新歌：今日份殿堂级日系爵士 </a>
+                    <span>播放量：6372 </span>
+                </div>
+                -->
+            </div>
+        </div>
+        </div>
+    <div class="container-fluid">
+        <div id="new">
+            <div class="nav-panel">
+            <h2>新&nbsp;歌&nbsp;首&nbsp;发</h2>
+            <ul>
+                <li><a style="color:#31c27c">最新</a></li>
+                <li><a>内地</a></li>
+                <li><a>港台</a></li>
+                <li><a>欧美</a></li>
+                <li><a>韩国</a></li>
+                <li><a>日本</a></li>
+            </ul>
+            </div>
+            <div class="music_panel">
+                <song-recommend v-for="music in musicList" v-bind:music="music"></song-recommend>
+                <!--后端获取
+               <div class="music_play">
+                   <img src="../img/music/10001.jpg">
+                   <div class="detail_panel">
+                       <h5>告白气球</h5>
+                       <p>周杰伦</p>
+                   </div>
+                   <div class="time_panel">
+                       02:42
+                   </div>
+               </div>
+                <div class="music_play">
+                    <img src="../img/music/10002.jpg">
+                    <div class="detail_panel">
+                        <h5>晴天</h5>
+                        <p>周杰伦</p>
+                    </div>
+                    <div class="time_panel">
+                        02:42
+                    </div>
+                </div>
+                <div class="music_play">
+                    <img src="../img/music/10003.jpg">
+                    <div class="detail_panel">
+                        <h5>光年之外</h5>
+                        <p>G.E.M. 邓紫棋</p>
+                    </div>
+                    <div class="time_panel">
+                        02:42
+                    </div>
+                </div>
+                <div class="music_play">
+                    <img src="../img/music/music01.png">
+                    <div class="detail_panel">
+                        <h5>少年可期芒果TV自制综艺</h5>
+                        <p>乐华七子NEXT</p>
+                    </div>
+                    <div class="time_panel">
+                        02:42
+                    </div>
+                </div>
+                <div class="music_play">
+                    <img src="../img/music/music01.png">
+                    <div class="detail_panel">
+                        <h5>少年可期芒果TV自制综艺</h5>
+                        <p>乐华七子NEXT</p>
+                    </div>
+                    <div class="time_panel">
+                        02:42
+                    </div>
+                </div>
+                <div class="music_play">
+                    <img src="../img/music/music01.png">
+                    <div class="detail_panel">
+                        <h5>少年可期芒果TV自制综艺</h5>
+                        <p>乐华七子NEXT</p>
+                    </div>
+                    <div class="time_panel">
+                        02:42
+                    </div>
+                </div>
+                <div class="music_play">
+                    <img src="../img/music/music01.png">
+                    <div class="detail_panel">
+                        <h5>少年可期芒果TV自制综艺</h5>
+                        <p>乐华七子NEXT</p>
+                    </div>
+                    <div class="time_panel">
+                        02:42
+                    </div>
+                </div>
+                <div class="music_play">
+                    <img src="../img/music/music01.png">
+                    <div class="detail_panel">
+                        <h5>少年可期芒果TV自制综艺</h5>
+                        <p>乐华七子NEXT</p>
+                    </div>
+                    <div class="time_panel">
+                        02:42
+                    </div>
+                </div>
+                <div class="music_play">
+                    <img src="../img/music/music01.png">
+                    <div class="detail_panel">
+                        <h5>少年可期芒果TV自制综艺</h5>
+                        <p>乐华七子NEXT</p>
+                    </div>
+                    <div class="time_panel">
+                        02:42
+                    </div>
+                </div>
+                -->
+            </div>
+        </div>
+        </div>
+    <div class="container-fluid">
+        <div id="recommend_cd">
+            <div class="nav-panel">
+                <h2>新&nbsp;碟&nbsp;首&nbsp;发</h2>
+                <ul>
+                    <li><a style="color:#31c27c">为你推荐</a></li>
+                    <li><a>影视</a></li>
+                    <li><a>伤感</a></li>
+                    <li><a>90年代</a></li>
+                    <li><a>情歌</a></li>
+                    <li><a>背景音乐</a></li>
+                </ul>
+            </div>
+            <div class="list_panel" id="album_new">
+                <album-recommend v-for="album in albumList" v-bind:album="album"></album-recommend>
+                <!-- 后端获取
+                <div class="music_list">
+                    <img src="../img/album/10001.jpg">
+                    <a> 周杰伦的床边故事 </a><br/>
+                    <span>播放量：5341 </span>
+                </div>
+                <div class="music_list">
+                    <img src="../img/album/10002.jpg">
+                    <a> 叶惠美 </a><br/>
+                    <span>播放量：6341 </span>
+                </div>
+                <div class="music_list">
+                    <img src="../img/album/10003.jpg">
+                    <a> 自定义 </a><br/>
+                    <span>播放量：1234 </span>
+                </div>
+                <div class="music_list">
+                    <img src="../img/album/10004.jpg">
+                    <a> 绅士 </a><br/>
+                    <span>播放量：8542 </span>
+                </div>
+                <div class="music_list">
+                    <img src="../img/album/10005.jpg">
+                    <a> 另一个童话 </a><br/>
+                    <span>播放量：4213 </span>
+                </div>
+                -->
+            </div>
+        </div>
+        </div>
+    <div class="container-fluid">
+        <div id="rank">
+            <div class="nav-panel">
+                <h2>排&nbsp;行&nbsp;榜</h2>
+            </div>
+            <div id="rank_panel">
+                <div class="rank_popular">
+                    <div class="rank_capital">
+                        <h3>流行指数</h3>
+                    </div>
+                    <ol>
+                        <song-rank v-for="music in rank_popular" v-bind:song="music"></song-rank>
+                    </ol>
+                    <!--
+                    后端载入
+                    <ol>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                    </ol>
+                    -->
+                </div>
+                <div class="rank_hot">
+                    <div class="rank_capital">
+                        <h3>热歌</h3>
+                    </div>
+                    <ol>
+                        <song-rank v-for="music in rank_hot" v-bind:song="music"></song-rank>
+                    </ol>
+                    <!--后端载入
+                    <ol>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                    </ol>
+                    -->
+                </div>
+                <div class="rank_new">
+                    <div class="rank_capital">
+                        <h3>新歌</h3>
+                    </div>
+                    <ol>
+                        <song-rank v-for="music in rank_new" v-bind:song="music"></song-rank>
+                    </ol>
+                    <!--后端载入
+                    <ol>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                    </ol>
+                    -->
+                </div>
+                <div class="rank_usa">
+                    <div class="rank_capital">
+                        <h3>欧美</h3>
+                    </div>
+                    <ol>
+                        <song-rank v-for="music in rank_eu" v-bind:song="music"></song-rank>
+                    </ol>
+                    <!--后端载入
+                    <ol>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                    </ol>
+                    -->
+                </div>
+                <div class="rank_korea">
+                    <div class="rank_capital">
+                        <h3>韩国</h3>
+                    </div>
+                    <ol>
+                        <song-rank v-for="music in rank_korea" v-bind:song="music"></song-rank>
+                    </ol>
+                    <!--后端载入
+                    <ol>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                        <li> 有一种悲伤 <br/>A-Lin </li>
+                    </ol>
+                    -->
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+<div class="footer-bg">
+    <div id="footer">
+        <p><a>关于谅&nbsp;|&nbsp;</a><a>About Liang&nbsp;|&nbsp;</a><a>服务条款&nbsp;|&nbsp;</a><a>用户服务协议&nbsp;|&nbsp;</a><a>隐私政策&nbsp;|&nbsp;</a><a>权利声明&nbsp;|&nbsp;</a><a>广告服务&nbsp;|&nbsp;</a><a>袁谅招聘&nbsp;|&nbsp;</a><a>客服中心&nbsp;|&nbsp;</a><a>网站导航</a></p>
+        <p>Copyright © 1998 - 2019 Liang. All Rights Reserved.</p>
+        <p><a>袁谅公司 版权所有 袁谅网络文化经营许可证</a></p>
+    </div>
+</div>
+<div class="modal fade" id="login_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">登录</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label>邮箱帐号</label>
+                        <input v-model="userEmail" type="email" id="email" class="form-control" placeholder="Email">
+                    </div>
+                    <div class="form-group">
+                        <label>密码</label>
+                        <input v-model="userPassword" type="password" id="password" class="form-control"  placeholder="Password">
+                    </div>
+                    <div class="checkbox">
+                        <label>
+                            <input type="checkbox">记住我
+                        </label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" v-on:click="login">登录</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal fade" id="register_modal" tabindex="-1" role="dialog">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">注册</h4>
+            </div>
+            <div class="modal-body">
+                <form>
+                    <div class="form-group">
+                        <label >昵称</label>
+                        <input type="text" v-model="userName" class="form-control" placeholder="不能为空" >
+                    </div>
+                    <div class="form-group">
+                        <label >邮箱帐号</label>
+                        <input type="email" v-model="userEmail" class="form-control" placeholder="请填写邮箱" >
+                    </div>
+                    <div class="form-group">
+                        <label >密码</label>
+                        <input type="password" v-model="userPassword" class="form-control" placeholder="密码长度大于6个字符小于16个字符" >
+                    </div>
+                    <div class="form-group">
+                        <label >确认密码</label>
+                        <input type="password" v-model="assure" class="form-control" placeholder="确认密码需要与密码相同">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">取消</button>
+                <button type="button" class="btn btn-success" v-on:click="register">注册</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<script type="text/javascript" src="../js/main.js"></script>
+<script type="text/javascript" src="../js/index.js"></script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+.song_detail{
+    width: 1250px;
+    height: 275px;
+    margin: 0 auto;
+    padding-top:40px; 
+}
+.song_left{
+    float: left;
+    width: 300px;
+    height: inherit;
+}
+.song_right{
+    float: left;
+    width: 550px;
+    height: inherit;
+}
+.data_string{
+    font-size:16px;
+}
+.icon-singer{
+    float: left;
+    width: 16px;
+    height: 16px;
+    margin: 5px 7px 0 0;
+    background:url(../img/icon_sprite.png) no-repeat -20px,-240px;
+}
+.song_right ul{
+    list-style: none;
+    font-size:14px;
+    height: 80px;
+    padding: 0;
+    margin-top: 15px;
+}
+.song_right li{
+    float: left;
+    width: 250px;
+    height: 27px;
+}
+.lyric{
+    width: 1250px;
+    height: 800px;
+    margin: 0 auto;
+    padding-top:40px; 
+}
+.comment{
+    width: 1250px;
+    height: 250px;
+    margin: 0 auto;
+    padding-top:30px; 
+
+}
+.comment textarea{
+    width: 850px;
+}
+span{
+    color: #999;
+    font-size: 14px;
+}
+.comment_new{
+    width: 1250px;
+    margin:0 auto; 
+}
+.comment_new ul{
+    list-style: none;
+    height: 1110px;
+    width: 860px;
+    padding-left:0; 
+}
+.comment_new ul li{
+    width: 860px;
+    height: 110px;
+    border-width: 0 0 1px 0;
+    border-style:solid;
+    border-color:#ededed;  
+}
+#comment_img{
+    float: left;
+    width: 70px;
+    height: inherit;
+}
+#comment_text{
+    float: left;
+    width: 790px;
+    height: inherit;
+}
